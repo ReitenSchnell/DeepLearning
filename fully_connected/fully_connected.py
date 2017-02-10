@@ -1,11 +1,14 @@
+import os
 import numpy as np
 import tensorflow as tf
 from six.moves import cPickle as pickle
 from six.moves import range
 
 pickle_file = 'notMNIST.pickle'
+base_path = os.path.dirname(__file__)
+full_path = os.path.abspath(os.path.join(base_path, "..", "data_sources", pickle_file))
 
-with open(pickle_file, 'rb') as f:
+with open(full_path, 'rb') as f:
   save = pickle.load(f)
   train_dataset = save['train_dataset']
   train_labels = save['train_labels']
