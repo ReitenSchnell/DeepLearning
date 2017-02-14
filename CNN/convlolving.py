@@ -32,7 +32,7 @@ def convolve_image(image):
     mean = tf.placeholder(tf.float32)
     sigma = tf.placeholder(tf.float32)
     k_size = tf.placeholder(tf.int32)
-    kernel = gaussian_kernel(mean, sigma, k_size)
+    kernel = gabor_kernel(mean, sigma, k_size)
     convolved = tf.nn.conv2d(img_4d, kernel, strides=[1, 1, 1, 1], padding='SAME')
     convolved_img = convolved[0, :, :, 0]
     with tf.Session() as sess:
