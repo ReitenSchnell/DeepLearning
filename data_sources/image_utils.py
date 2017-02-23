@@ -15,7 +15,8 @@ def build_gif(imgs):
     fig.subplots_adjust(left=0)
     ax.set_axis_off()
     axs = list(map(lambda x: [ax.imshow(x)], img_array))
-    ani = animation.ArtistAnimation(fig, axs, interval=interval * 1000, repeat_delay=0, blit=False)
-    save_to = 'animation.gif'
-    ani.save(save_to, writer='imagemagick', dpi=dpi)
+    im_ani = animation.ArtistAnimation(fig, axs, interval=interval * 1000, repeat_delay=0, blit=False)
+    save_to = 'animation.mp4'
+    ff_writer = animation.FFMpegWriter()
+    im_ani.save(save_to, writer=ff_writer, dpi=dpi)
     plt.show()
