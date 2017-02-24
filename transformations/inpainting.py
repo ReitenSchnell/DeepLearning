@@ -1,4 +1,4 @@
-from skimage.data import astronaut
+import os
 from scipy.misc import imresize
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -20,9 +20,11 @@ def distance(p1, p2):
     return tf.abs(p1 - p2)
 
 
-def read_image():
-    arr = astronaut()
-    img = imresize(arr, (64, 64))
+def read_image(file_name, new_size):
+    base_path = os.path.dirname(__file__)
+    full_path = os.path.abspath(os.path.join(base_path, "..", "data_sources\pictures", file_name))
+    arr = plt.imread(full_path)
+    img = imresize(arr, (new_size, new_size))
     xs = []
     ys = []
     for row_i in range(img.shape[0]):
@@ -40,7 +42,8 @@ def read_image():
 def train_network(img, xs, ys):
     x = tf.placeholder(tf.float32, [None, 2])
     y = tf.placeholder(tf.float32, [None, 3])
-    n_neurons = [2, 64, 64, 64, 64, 64, 64, 3]
+    im_size = img.shape[0]
+    n_neurons = [2, im_size, im_size, im_size, im_size, im_size, im_size, 3]
     current_input = x
     for layer in range(1, len(n_neurons)):
         current_input = linear(current_input, n_neurons[layer - 1], n_neurons[layer],
@@ -76,5 +79,5 @@ def train_network(img, xs, ys):
         data_sources.image_utils.build_gif(images)
 
 
-xs, ys, img = read_image()
+xs, ys, img = read_image('dog.jpeg', 128)
 train_network(img, xs, ys)
